@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Actividad 14 — Códigos QR para Proyectos Web</title>
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Librerías para generar y leer QR -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <h1>📚💡 Códigos QR para Proyectos Web</h1>
+    <p class="subtitle">Actividad 14 — Generación, personalización y lectura de QR</p>
+  </header>
+
+  <main class="grid">
+    <!-- Generador -->
+    <section class="card">
+      <h2>Generar código QR</h2>
+      <form id="qr-form" class="form" onsubmit="return false;">
+        <label class="row">
+          <span>Contenido</span>
+          <input id="qr-text" type="text" placeholder="https://tusitio.com o cualquier texto" />
+        </label>
+
+        <div class="row two">
+          <label>
+            <span>Tamaño</span>
+            <input id="qr-size" type="number" min="120" max="640" value="256" />
+          </label>
+          <label>
+            <span>Corrección</span>
+            <select id="qr-ecc">
+              <option value="L">L (7%)</option>
+              <option value="M" selected>M (15%)</option>
+              <option value="Q">Q (25%)</option>
+              <option value="H">H (30%)</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="row two">
+          <label>
+            <span>Color frente</span>
+            <input id="qr-fg" type="color" value="#000000" />
+          </label>
+          <label>
+            <span>Color fondo</span>
+            <input id="qr-bg" type="color" value="#ffffff" />
+          </label>
+        </div>
+
+        <div class="row two">
+          <label>
+            <span>Margen</span>
+            <input id="qr-margin" type="number" min="0" max="16" value="2" />
+          </label>
+          <label>
+            <span>Render</span>
+            <select id="qr-render">
+              <option value="canvas" selected>Canvas</option>
+              <option value="table">Tabla (HTML)</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="actions">
+          <button id="btn-generate" type="button">Generar</button>
+          <button id="btn-clear" type="button" class="muted">Limpiar</button>
+          <button id="btn-download" type="button" class="accent">Descargar PNG</button>
+        </div>
+      </form>
+
+      <div id="qr-output" class="qr-out" aria-label="Código QR generado"></div>
+      <p class="hint">Consejo: probá con una URL de tu proyecto y pegá el QR en afiches o en tu portfolio.</p>
+    </section>
+
+    <!-- Lector en vivo -->
+    <section class="card">
+      <h2>Escanear QR con la cámara</h2>
+      <div class="scan-wrap">
+        <video id="video" autoplay playsinline muted></video>
+        <canvas id="frame" width="640" height="480" hidden></canvas>
+        <div id="scan-overlay">Apunta la cámara al QR</div>
+      </div>
+      <div class="actions">
+        <button id="btn-start">Iniciar cámara</button>
+        <button id="btn-stop" class="muted">Detener</button>
+      </div>
+      <p><strong>Resultado:</strong> <span id="scan-result" class="result">—</span></p>
+      <p class="hint">Si tu navegador no soporta la API de detección, usaremos un método por imagen.</p>
+    </section>
+
+    <!-- Lector desde imagen -->
+    <section class="card">
+      <h2>Leer QR desde imagen</h2>
+      <div class="row">
+        <input id="file-input" type="file" accept="image/*" />
+      </div>
+      <canvas id="img-canvas" class="img-canvas" hidden></canvas>
+      <p><strong>Resultado:</strong> <span id="file-result" class="result">—</span></p>
+      <p class="hint">Subí una captura/foto del QR para decodificarlo.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <small>Actividad 14 — Uso educativo • PWD 7° 2° B</small>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
